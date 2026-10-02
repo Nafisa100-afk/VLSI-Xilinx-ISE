@@ -1,0 +1,143 @@
+LIBRARY ieee;
+
+USE ieee.std_logic_1164.ALL;
+
+
+
+ENTITY Eightbit_Full_adder_gate_tb IS
+
+END Eightbit_Full_adder_gate_tb;
+
+
+
+ARCHITECTURE behavior OF Eightbit_Full_adder_gate_tb IS
+
+
+
+    COMPONENT Eightbit_Full_adder_gate
+
+        PORT(
+
+            A    : IN  STD_LOGIC_VECTOR(7 downto 0);
+
+            B    : IN  STD_LOGIC_VECTOR(7 downto 0);
+
+            Cin  : IN  STD_LOGIC;
+
+            SUM  : OUT STD_LOGIC_VECTOR(7 downto 0);
+
+            COUT : OUT STD_LOGIC
+
+        );
+
+    END COMPONENT;
+
+
+
+    SIGNAL A    : STD_LOGIC_VECTOR(7 downto 0) := "00000000";
+
+    SIGNAL B    : STD_LOGIC_VECTOR(7 downto 0) := "00000000";
+
+    SIGNAL Cin  : STD_LOGIC := '0';
+
+    SIGNAL SUM  : STD_LOGIC_VECTOR(7 downto 0);
+
+    SIGNAL COUT : STD_LOGIC;
+
+
+
+BEGIN
+
+
+
+    uut: Eightbit_Full_adder_gate
+
+        PORT MAP (
+
+            A    => A,
+
+            B    => B,
+
+            Cin  => Cin,
+
+            SUM  => SUM,
+
+            COUT => COUT
+
+        );
+
+
+
+    stim_proc: PROCESS
+
+    BEGIN
+
+
+
+        -- Test 1: 5 + 3 = 8
+
+        A <= "00000101";
+
+        B <= "00000011";
+
+        Cin <= '0';
+
+        WAIT FOR 100 ns;
+
+
+
+        -- Test 2: 15 + 10 = 25
+
+        A <= "00001111";
+
+        B <= "00001010";
+
+        Cin <= '0';
+
+        WAIT FOR 100 ns;
+
+
+
+        -- Test 3: 100 + 50 = 150
+
+        A <= "01100100";
+
+        B <= "00110010";
+
+        Cin <= '0';
+
+        WAIT FOR 100 ns;
+
+
+
+        -- Test 4: 255 + 1 = 256
+
+        A <= "11111111";
+
+        B <= "00000001";
+
+        Cin <= '0';
+
+        WAIT FOR 100 ns;
+
+
+
+        -- Test 5: 10 + 20 + Cin = 31
+
+        A <= "00001010";
+
+        B <= "00010100";
+
+        Cin <= '1';
+
+        WAIT FOR 100 ns;
+
+
+
+        WAIT;
+
+    END PROCESS;
+
+
+
+END behavior;

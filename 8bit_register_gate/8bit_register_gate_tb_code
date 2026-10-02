@@ -1,0 +1,173 @@
+LIBRARY ieee;
+
+USE ieee.std_logic_1164.ALL;
+
+
+
+ENTITY Register_8bit_gate_tb IS
+
+END Register_8bit_gate_tb;
+
+
+
+ARCHITECTURE behavior OF Register_8bit_gate_tb IS
+
+
+
+    COMPONENT Register_8bit_gate
+
+    PORT(
+
+         CLK   : IN  std_logic;
+
+         RESET : IN  std_logic;
+
+         LOAD  : IN  std_logic;
+
+         D     : IN  std_logic_vector(7 downto 0);
+
+         Q     : OUT std_logic_vector(7 downto 0)
+
+        );
+
+    END COMPONENT;
+
+
+
+    signal CLK   : std_logic := '0';
+
+    signal RESET : std_logic := '0';
+
+    signal LOAD  : std_logic := '0';
+
+    signal D     : std_logic_vector(7 downto 0) := (others => '0');
+
+
+
+    signal Q : std_logic_vector(7 downto 0);
+
+
+
+    constant CLK_period : time := 10 ns;
+
+
+
+BEGIN
+
+
+
+    uut: Register_8bit_gate PORT MAP (
+
+          CLK   => CLK,
+
+          RESET => RESET,
+
+          LOAD  => LOAD,
+
+          D     => D,
+
+          Q     => Q
+
+        );
+
+
+
+    -- Clock generation
+
+    CLK_process :process
+
+    begin
+
+        CLK <= '0';
+
+        wait for CLK_period/2;
+
+        CLK <= '1';
+
+        wait for CLK_period/2;
+
+    end process;
+
+
+
+    -- Stimulus
+
+    stim_proc: process
+
+    begin
+
+
+
+        -- Test 1: RESET
+
+        RESET <= '1';
+
+        LOAD  <= '0';
+
+        D     <= "11111111";
+
+        wait for 20 ns;
+
+
+
+        -- Test 2: LOAD 10101010
+
+        RESET <= '0';
+
+        LOAD  <= '1';
+
+        D     <= "10101010";
+
+        wait for 20 ns;
+
+
+
+        -- Test 3: HOLD previous value
+
+        LOAD  <= '0';
+
+        D     <= "01010101";
+
+        wait for 20 ns;
+
+
+
+        -- Test 4: LOAD 01010101
+
+        LOAD  <= '1';
+
+        D     <= "01010101";
+
+        wait for 20 ns;
+
+
+
+        -- Test 5: LOAD 00111100
+
+        D     <= "00111100";
+
+        wait for 20 ns;
+
+
+
+        -- Test 6: RESET again
+
+        RESET <= '1';
+
+        LOAD  <= '0';
+
+        D     <= "11111111";
+
+        wait for 20 ns;
+
+
+
+        wait;
+
+
+
+    end process;
+
+
+
+END behavior;
